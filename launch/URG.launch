@@ -1,0 +1,11 @@
+<launch>
+  <arg name="output" default="screen"/>
+
+  <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
+    <param name="frame_id" value="hokuyo_link"/>
+    <param name="serial_port" value="/dev/ttyACM0"/> 
+    <param name="angle_min" type="double" value="-0.7" />
+    <param name="angle_max" type="double" value="0.7" />
+  </node>
+  
+</launch>
