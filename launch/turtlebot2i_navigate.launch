@@ -1,18 +1,18 @@
  <launch>
-    <arg name="output" default="screen" />
+    <arg name="output" 		default="screen" />
     <arg name="global_frame_id" default="map" />
-    <arg name="use_rviz" default="true"/>
-    <arg name="odom_frame_id" default="odom" /> 
-    <arg name="move_base" default="screen" />
+    <arg name="use_rviz" 	default="true"/>
+    <arg name="odom_frame_id" 	default="odom" /> 
+    <arg name="move_base" 	default="screen" />
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="use_map_topic"   default="true"/>
  
     <!-- start base -->
-    <include file="$(find turtlebot2i_bringup)/launch/minimal.launch"/>
+    <include file="$(find turtlebot2i_bringup)/launch/turtlebot2i_basic.launch"/>
         
 
     <!-- map_server -->
-    <arg name="map" default="$(find turtlebot_navigation)/maps/arena_simu.yaml" />
+    <arg name="map" default="$(find turtlebot_navigation)/maps/arena_pre_robocup.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" output="$(arg output)" />
 
     
@@ -45,8 +45,6 @@
       <param name="angle_min" type="double" value="-1.0" />
       <param name="angle_max" type="double" value="1.0" />
       <param name="intensity" value="true" />
-
-
     </node>
 
    

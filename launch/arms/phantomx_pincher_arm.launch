@@ -3,7 +3,7 @@
   <arg name="simulation" default="false"/>
 
   <!--fake gripper publisher-->
-  <node name="fake_joint_pub" pkg="phantomx_pincher_arm_bringup" type="fake_joint_pub.py"/>
+  <!-- <node name="fake_joint_pub" pkg="phantomx_pincher_arm_bringup" type="fake_joint_pub.py"/> -->
   
   <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
     <rosparam file="$(find phantomx_pincher_arm_bringup)/config/phantomx_pincher_arm.yaml" command="load"/>

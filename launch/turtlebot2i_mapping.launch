@@ -9,7 +9,7 @@
 
   <include file="$(find turtlebot2i_bringup)/launch/minimal.launch"/>
 
-  <!--<include file="$(find turtlebot2i_bringup)/launch/arms/phantomx_pincher_arm.launch"/>-->
+  <include file="$(find turtlebot2i_bringup)/launch/arms/phantomx_pincher_arm.launch"/>
 
   <!--<include file="$(find turtlebot2i_arm_director)/launch/named_pose_director.launch">
     <arg name="load_moveit" value="true"/>
