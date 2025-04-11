@@ -6,6 +6,6 @@
 
   <!-- <include file="$(find turtlebot2i_bringup)/launch/dual_3dsensor.launch"/> -->
 
-  <include file="$(find work_vision)/launch/rs_vision.launch"/>
+  <!-- <include file="$(find work_vision)/launch/rs_vision.launch"/> -->
 
 </launch>
