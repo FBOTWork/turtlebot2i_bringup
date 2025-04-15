@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Arm -->
+    <arg name="simulation" default="false"/>
+
+    <!--fake gripper publisher-->
+    <!-- <node name="fake_joint_pub" pkg="phantomx_pincher_arm_bringup" type="fake_joint_pub.py"/> -->
+    
+    <!-- <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
+        <rosparam file="$(find phantomx_pincher_arm_bringup)/config/phantomx_pincher_arm.yaml" command="load"/>
+        <param name="sim" value="$(arg simulation)"/>
+    </node> -->
+
+    <!-- <node name="gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+        <rosparam file="$(find phantomx_pincher_arm_bringup)/config/phantomx_pincher_gripper.yaml" command="load" />
+    </node> -->
+
+
+    <!-- Turtlebot2i -->
+    <arg name="base"              default="$(env TURTLEBOT_BASE)"         doc="mobile base type [kobuki]"/>
+    <arg name="stacks"            default="$(env TURTLEBOT_STACKS)"       doc="stack type displayed in visualisation/simulation [interbotix]"/>
+    <arg name="3d_sensor"         default="$(env TURTLEBOT_3D_SENSOR)"    doc="3d sensor types [zr300, astra]"/>
+    <!-- <arg name="serialport" value="kobuki" /> -->
+    <!-- <arg name="simulation"        default="$(env TURTLEBOT_SIMULATION)"   doc="set flags to indicate this turtle is run in simulation mode."/> -->
+    <arg name="serialport"        default="$(env TURTLEBOT_SERIAL_PORT)"  doc="used by create to configure the port it is connected on [/dev/ttyUSB0, /dev/ttyS0, /dev/ttyACM0]"/>
+    <!--<arg name="arm"		default="$(env TURTLEBOT_ARM)"		doc="arm's description [phantom]"/>-->
+    
+    <!--Robot-->
+    <!--Description-->
+    <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find turtlebot2i_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor).urdf.xacro'" />
+    <param name="robot_description" command="$(arg urdf_file)" />
+
+    <arg name="sim" default="false" />
+
+	<include file="$(find phantomx_pincher_arm_bringup)/launch/arm.launch"/>
+	<include file="$(find phantomx_pincher_arm_moveit_config)/launch/phantomx_pincher_arm_moveit.launch">
+		<arg name="sim" value="$(arg sim)"/>
+	</include>
+
+    <!-- important generally, but specifically utilised by the current app manager -->  
+    <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
+    <param name="robot/type" value="turtlebot"/>
+
+    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+        <rosparam command="load" file="$(find turtlebot2i_bringup)/param/$(arg base)/diagnostics.yaml" />
+    </node>
+
+    <!--Mobile Base-->
+    <include file="$(find turtlebot2i_bringup)/launch/includes/$(arg base)/mobile_base.launch.xml">
+        <arg name="serialport" value="$(arg serialport)" />
+    </include>
+</launch>

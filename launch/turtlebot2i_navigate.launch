@@ -1,0 +1,87 @@
+ <launch>
+    <arg name="output" 		default="screen" />
+    <arg name="global_frame_id" default="map" />
+    <arg name="use_rviz" 	default="true"/>
+    <arg name="odom_frame_id" 	default="odom" /> 
+    <arg name="move_base" 	default="screen" />
+    <arg name="base_frame_id"   default="base_footprint"/>
+    <arg name="use_map_topic"   default="true"/>
+ 
+    <!-- start base -->
+    <include file="$(find turtlebot2i_bringup)/launch/turtlebot2i_basic.launch"/>
+        
+
+    <!-- map_server -->
+    <arg name="map" default="$(find turtlebot_navigation)/maps/arena_pre_robocup.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" output="$(arg output)" />
+
+    
+    <!-- Localization -->
+    <!--<include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
+        <arg name="use_map_topic" value="$(arg use_map_topic)" />
+    </include>-->
+
+    <!--AMCL-->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+        <remap from="scan" to="scan"/>
+        <param name="odom_frame_id" value="odom"/>       
+        <param name="base_frame_id" value="base_footprint"/>
+        <param name="update_min_d" value="0.1"/>
+        <param name="update_min_a" value="0.2"/>
+        <param name="min_particles" value="4"/>
+        <param name="global_frame_id" value="map"/>
+        <param name="tf_broadcast" value="true" />
+        <param name="initial_pose_x" value="0.0"/>
+        <param name="initial_pose_y" value="0.0"/>
+        <param name="initial_pose_a" value="0.0"/>
+    </node>
+
+
+
+    <!-- launch laser -->
+    <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
+      <param name="frame_id" value="hokuyo_link"/>
+      <param name="serial_port" value="/dev/ttyACM0"/> 
+      <param name="angle_min" type="double" value="-1.0" />
+      <param name="angle_max" type="double" value="1.0" />
+      <param name="intensity" value="true" />
+    </node>
+
+   
+
+   
+
+      <arg name="odom_topic" default="odom" />
+      <arg name="laser_topic" default="/scan" />
+  <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find turtlebot_navigation)/param/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find turtlebot_navigation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot_navigation)/param/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot_navigation)/param/move_base_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot_navigation)/param/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot_navigation)/param/navfn_global_planner_params.yaml" command="load" />
+    <!-- external params file that could be loaded into the move_base namespace -->
+    <rosparam file="$(arg custom_param_file)" command="load" />
+    
+    <!-- reset frame_id parameters using user input data -->
+    <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
+    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
+
+    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="scan" to="$(arg laser_topic)"/>
+  </node>
+    
+
+
+    <!-- Call rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot2i_bringup)/rviz/mapping.rviz"
+        output="$(arg output)" if="$(arg use_rviz)"/>
+</launch>
