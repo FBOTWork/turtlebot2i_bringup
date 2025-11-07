@@ -12,8 +12,8 @@
         
 
     <!-- map_server -->
-    <arg name="map" default="$(find turtlebot_navigation)/maps/arena_pre_robocup.yaml" />
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)" output="$(arg output)" />
+    <arg name="map_name" default="arena_CBRdef.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
     
     <!-- Localization -->
@@ -31,9 +31,15 @@
         <param name="min_particles" value="4"/>
         <param name="global_frame_id" value="map"/>
         <param name="tf_broadcast" value="true" />
-        <param name="initial_pose_x" value="0.0"/>
-        <param name="initial_pose_y" value="0.0"/>
-        <param name="initial_pose_a" value="0.0"/>
+        <param name="initial_pose_x" value="4.52"/>
+        <param name="initial_pose_y" value="-1.69"/>
+        <param name="initial_pose_a" value="0.203"/>
+        <!-- <param name="selective_resampling" value= "false"/> -->
+        <!-- <param name="resample_interval" value= "5"/> -->
+        <param name="odom_alpha1" value= "0.7"/>
+        <param name="odom_alpha2" value= "0.7"/>
+        <param name="odom_alpha3" value= "0.7"/>
+        <param name="odom_alpha4" value= "0.7"/>
     </node>
 
 
@@ -60,7 +66,7 @@
     <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />   
     <rosparam file="$(find turtlebot_navigation)/param/local_costmap_params.yaml" command="load" />   
     <rosparam file="$(find turtlebot_navigation)/param/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find turtlebot_navigation)/param/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot_navigation)/param/teb_local_planner_params.yaml" command="load" />
     <rosparam file="$(find turtlebot_navigation)/param/move_base_params.yaml" command="load" />
     <rosparam file="$(find turtlebot_navigation)/param/global_planner_params.yaml" command="load" />
     <rosparam file="$(find turtlebot_navigation)/param/navfn_global_planner_params.yaml" command="load" />

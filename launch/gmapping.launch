@@ -7,14 +7,21 @@
     <param name="ymin" value="-1.0"/>
     <param name="xmax" value="1.0"/>
     <param name="ymax" value="1.0"/>
-
-    <param name="lskip" value="10"/>
-    <param name="linearUpdate" value="1.0"/>
+    <param name="map_update_interval" value="0.1"/>
+    <param name="lskip" value="4"/>
+    <param name="linearUpdate" value="0.3"/>
     <param name="angularUpdate" value="0.5"/>
     <!-- <param name="temporalUpdate" value="3"/> -->
-    <param name="maxRange" value="12.0"/> <!-- reduces random spikes -->
-    <!-- <param name="minimumScore" value="50"/> -->
+    <param name="maxRange" value="5.5"/> <!-- reduces random spikes -->
+    <param name="maxUrange" value="4.0"/>
+    <param name="minimumScore" value="50"/>
     <remap from="scan" to="$(arg scan_name)"/>
+  </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+
+    <rosparam command="load" file="$(find turtlebot_navigation)/param/laser_filter.yaml" />
+    <remap from="scan" to="/scan_filtered" />
   </node>
 
 </launch>

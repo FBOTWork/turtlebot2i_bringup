@@ -4,7 +4,8 @@
 
   <!--fake gripper publisher-->
   <!-- <node name="fake_joint_pub" pkg="phantomx_pincher_arm_bringup" type="fake_joint_pub.py"/> -->
-  
+  <param name="/rosconsole/config_file" value="$(find turtlebot2i_bringup)/launch/TF_disabler.yaml"/>
+
   <node name="arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen">
     <rosparam file="$(find phantomx_pincher_arm_bringup)/config/phantomx_pincher_arm.yaml" command="load"/>
     <param name="sim" value="$(arg simulation)"/>

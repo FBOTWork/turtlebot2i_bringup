@@ -10,7 +10,10 @@
   
   <!--Robot-->
   <!--Description-->
-  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find turtlebot2i_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor).urdf.xacro'" />
+  <!-- $(find work_description)/urdf/work_micky_full.urdf.xacro -->
+  <!-- $(find turtlebot2i_description)/robots/kobuki_interbotix_d435i.urdf.xacro -->
+   
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find work_description)/urdf/work_micky_full.urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
 
   <!-- important generally, but specifically utilised by the current app manager -->  
@@ -24,11 +27,9 @@
     <rosparam command="load" file="$(find turtlebot2i_bringup)/param/$(arg base)/diagnostics.yaml" />
   </node>
 
-  <!--Mobile Base-->
+   <!--Mobile Base-->
   <include file="$(find turtlebot2i_bringup)/launch/includes/$(arg base)/mobile_base.launch.xml">
     <arg name="serialport" value="$(arg serialport)" />
   </include>
-
-  
 
 </launch>

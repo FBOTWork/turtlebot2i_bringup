@@ -1,0 +1,6 @@
+log4j:
+  ros:
+    tf:
+      level: error
+    tf2:
+      level: error
