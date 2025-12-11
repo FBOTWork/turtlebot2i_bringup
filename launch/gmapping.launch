@@ -13,7 +13,7 @@
     <param name="angularUpdate" value="0.5"/>
     <!-- <param name="temporalUpdate" value="3"/> -->
     <param name="maxRange" value="5.5"/> <!-- reduces random spikes -->
-    <param name="maxUrange" value="4.0"/>
+    <param name="maxUrange" value="2.0"/>
     <param name="minimumScore" value="50"/>
     <remap from="scan" to="$(arg scan_name)"/>
   </node>
