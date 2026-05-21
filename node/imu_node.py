@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-import serial
+import serial  # type: ignore
 import time
 
 from sensor_msgs.msg import Imu
