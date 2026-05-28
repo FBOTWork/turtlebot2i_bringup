@@ -1,4 +1,4 @@
-<launch>
+   <launch>
     <arg name="output" 		default="screen" />
     <arg name="global_frame_id" default="map" />
     <arg name="use_rviz" 	default="true"/>
@@ -12,7 +12,7 @@
         
 
     <!-- map_server -->
-    <arg name="map_name" default="arena_urucup.yaml" />
+    <arg name="map_name" default="arena_CBRdef.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
     
@@ -37,9 +37,9 @@
         <param name="min_particles" value="4"/>
         <param name="global_frame_id" value="map"/>
         <param name="tf_broadcast" value="true" />
-        <param name="initial_pose_x" value="3.5"/>
-        <param name="initial_pose_y" value="-3.24"/>
-        <param name="initial_pose_a" value="0.00243"/>
+        <param name="initial_pose_x" value="4.52"/>
+        <param name="initial_pose_y" value="-1.69"/>
+        <param name="initial_pose_a" value="0.203"/>
         <!-- <param name="selective_resampling" value= "false"/> -->
         <!-- <param name="resample_interval" value= "5"/> -->
         <param name="odom_alpha1" value= "0.7"/>
