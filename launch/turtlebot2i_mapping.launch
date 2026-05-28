@@ -15,6 +15,12 @@
     <arg name="load_moveit" value="true"/>
   </include>-->
 
+  <!-- EKF filter for odometry -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
+    <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
+    <remap from="odometry/filtered" to="odom"/>
+  </node>
+
   <include file="$(find turtlebot2i_bringup)/launch/gmapping.launch"/>
 
   <include file="$(find turtlebot2i_bringup)/launch/URG.launch"/>

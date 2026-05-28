@@ -1,0 +1,26 @@
+frequency: 30
+sensor_timeout: 0.1
+two_d_mode: true
+
+# Odom (wheel) odometry input
+odom0: odom
+odom0_config: [true,  true,  false,
+               false, false, true,
+               false, false, false,
+               false, false, true,
+               false, false, false]
+odom0_queue_size: 10
+
+# IMU input
+imu0: /imu/data_raw
+imu0_config: [false, false, false,
+              true,  true,  true,
+              false, false, false,
+              true,  true,  true,
+              false, false, false]
+imu0_queue_size: 10
+
+use_control: false
+stamped_out: true
+publish_tf: true
+world_frame: map

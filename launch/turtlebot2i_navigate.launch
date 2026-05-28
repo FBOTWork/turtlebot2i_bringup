@@ -17,6 +17,12 @@
 
     
     <!-- Localization -->
+    <!-- robot_localization EKF filter -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
+      <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
+      <remap from="odometry/filtered" to="$(arg odom_topic)"/>
+    </node>
+
     <!--<include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
         <arg name="use_map_topic" value="$(arg use_map_topic)" />
     </include>-->
@@ -57,9 +63,9 @@
 
    
 
-      <arg name="odom_topic" default="odom" />
+      <arg name="odom_topic" default="odometry/filtered" />  
       <arg name="laser_topic" default="/scan" />
-  <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
+    <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
