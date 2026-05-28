@@ -1,11 +1,13 @@
-   <launch>
+<launch>
     <arg name="output" 		default="screen" />
     <arg name="global_frame_id" default="map" />
     <arg name="use_rviz" 	default="true"/>
-    <arg name="odom_frame_id" 	default="odom" /> 
+    <arg name="odom_frame_id" default="odom" />  
     <arg name="move_base" 	default="screen" />
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="use_map_topic"   default="true"/>
+    <arg name="odom_topic" default="odometry/filtered" />
+    <arg name="laser_topic" default="/scan" />
  
     <!-- start base -->
     <include file="$(find turtlebot2i_bringup)/launch/turtlebot2i_basic.launch"/>
@@ -16,6 +18,13 @@
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
     
+    <!-- IMU node for EKF input -->
+    <node pkg="turtlebot2i_bringup" type="imu_node.py" name="imu_node" output="screen">
+      <param name="port" value="/dev/ttyUSB2"/>
+      <param name="baud" value="115200"/>
+      <param name="frame_id" value="imu_link"/>
+    </node>
+
     <!-- Localization -->
     <!-- robot_localization EKF filter -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
@@ -29,7 +38,7 @@
 
     <!--AMCL-->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
-        <remap from="scan" to="scan"/>
+        <remap from="scan" to="$(arg laser_topic)"/>
         <param name="odom_frame_id" value="odom"/>       
         <param name="base_frame_id" value="base_footprint"/>
         <param name="update_min_d" value="0.1"/>
@@ -63,8 +72,6 @@
 
    
 
-      <arg name="odom_topic" default="odometry/filtered" />  
-      <arg name="laser_topic" default="/scan" />
     <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
