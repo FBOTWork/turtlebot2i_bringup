@@ -51,33 +51,31 @@ class IMUNode:
     def process_line(self, line):
 
         try:
-            # Accept only complete Arduino messages
             if "IMU:" not in line:
                 return
 
-            # Get only content after last IMU:
             line = line.split("IMU:")[-1]
-
             line = line.replace(";", "")
             line = line.replace(" ", "")
             line = line.strip()
 
             parts = line.split(',')
 
-            # Expected format:
-            # qx,qy,qz,qw,gx,gy,gz,ax,ay,az
             if len(parts) != 10:
-                rospy.logwarn("Invalid IMU line: %s", line)
+                rospy.logwarn_throttle(5.0, "Invalid IMU line: %s", line)
                 return
 
-            data = [float(x) for x in parts]
+            try:
+                data = [float(x) for x in parts]
+            except ValueError:
+                rospy.logwarn_throttle(5.0, "Invalid numeric value in IMU line: %s", line)
+                return
 
             msg = Imu()
 
             msg.header.stamp = rospy.Time.now()
             msg.header.frame_id = self.frame_id
 
-            # Orientation quaternion
             msg.orientation.x = data[0]
             msg.orientation.y = data[1]
             msg.orientation.z = data[2]
@@ -86,10 +84,9 @@ class IMUNode:
             msg.orientation_covariance = [
                 0.05, 0.0, 0.0,
                 0.0, 0.05, 0.0,
-                0.0, 0.0, 0.10
+                0.0, 0.0, 0.30
             ]
 
-            # Angular velocity rad/s
             msg.angular_velocity.x = data[4]
             msg.angular_velocity.y = data[5]
             msg.angular_velocity.z = data[6]
@@ -100,7 +97,6 @@ class IMUNode:
                 0.0, 0.0, 0.02
             ]
 
-            # Linear acceleration m/s²
             msg.linear_acceleration.x = data[7]
             msg.linear_acceleration.y = data[8]
             msg.linear_acceleration.z = data[9]
@@ -114,7 +110,7 @@ class IMUNode:
             self.pub_imu.publish(msg)
 
         except Exception as e:
-            rospy.logwarn("Parsing error: %s | line: %s", str(e), line)
+            rospy.logwarn_throttle(5.0, "Parsing error: %s | line: %s", str(e), line)
 
 
 if __name__ == '__main__':

@@ -12,20 +12,20 @@
         
 
     <!-- map_server -->
-    <arg name="map_name" default="arena_urucup.yaml" />
+    <arg name="map_name" default="arena_CBRdef.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
     
-    <!-- Localization -->
-    <!-- robot_localization EKF filter -->
+    
+
+
+    <!--robot_localization EKF filter-->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
       <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
       <remap from="odometry/filtered" to="$(arg odom_topic)"/>
     </node>
 
-    <!--<include file="$(find turtlebot_navigation)/launch/includes/amcl/amcl.launch.xml">
-        <arg name="use_map_topic" value="$(arg use_map_topic)" />
-    </include>-->
+
 
     <!--AMCL-->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
@@ -37,9 +37,9 @@
         <param name="min_particles" value="4"/>
         <param name="global_frame_id" value="map"/>
         <param name="tf_broadcast" value="true" />
-        <param name="initial_pose_x" value="3.5"/>
-        <param name="initial_pose_y" value="-3.24"/>
-        <param name="initial_pose_a" value="0.00243"/>
+        <param name="initial_pose_x" value="4.52"/>
+        <param name="initial_pose_y" value="-1.69"/>
+        <param name="initial_pose_a" value="0.203"/>
         <!-- <param name="selective_resampling" value= "false"/> -->
         <!-- <param name="resample_interval" value= "5"/> -->
         <param name="odom_alpha1" value= "0.7"/>
@@ -63,9 +63,9 @@
 
    
 
-      <arg name="odom_topic" default="odometry/filtered" />  
+      <arg name="odom_topic" default="odom" />
       <arg name="laser_topic" default="/scan" />
-    <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
+  <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find turtlebot_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />

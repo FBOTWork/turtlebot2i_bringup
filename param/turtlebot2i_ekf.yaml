@@ -1,26 +1,42 @@
-frequency: 30
-sensor_timeout: 0.1
-two_d_mode: true
+ekf_filter_node:
+  frequency: 30
+  sensor_timeout: 0.1
+  two_d_mode: true
 
-# Odom (wheel) odometry input
-odom0: odom
-odom0_config: [true,  true,  false,
-               false, false, true,
-               false, false, false,
-               false, false, true,
-               false, false, false]
-odom0_queue_size: 10
+  # Frames
+  map_frame: map
+  odom_frame: odom
+  base_link_frame: base_footprint
+  world_frame: odom
 
-# IMU input
-imu0: /imu/data_raw
-imu0_config: [false, false, false,
-              true,  true,  true,
-              false, false, false,
-              true,  true,  true,
-              false, false, false]
-imu0_queue_size: 10
+  # IMPORTANTE:
+  # Use false se o Turtlebot já publica odom -> base_footprint
+  # Use true somente se você desativar o TF original da odometria
+  publish_tf: false
 
-use_control: false
-stamped_out: true
-publish_tf: true
-world_frame: map
+  # Wheel odometry
+  odom0: /odom
+  odom0_config: [true,  true,  false,
+                false, false, false,
+                true,  false, false,
+                false, false, false,
+                false, false, false]
+
+  odom0_queue_size: 10
+  odom0_differential: false
+  odom0_relative: false
+
+  # IMU
+  imu0: /imu/data_raw
+  imu0_config: [false, false, false,
+                false, false, true,
+                false, false, false,
+                false, false, true,
+                false, false, false]
+
+  imu0_queue_size: 10
+  imu0_differential: false
+  imu0_relative: false
+  imu0_remove_gravitational_acceleration: true
+
+  use_control: false
