@@ -6,7 +6,9 @@
     <arg name="move_base" 	default="screen" />
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="use_map_topic"   default="true"/>
- 
+    <arg name="odom_topic" default="/odometry/filtered" />
+    <arg name="laser_topic" default="/scan" />
+
     <!-- start base -->
     <include file="$(find turtlebot2i_bringup)/launch/turtlebot2i_basic.launch"/>
         
@@ -18,18 +20,17 @@
     
     
 
-
     <!--robot_localization EKF filter-->
+    <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
-      <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
-      <remap from="odometry/filtered" to="$(arg odom_topic)"/>
+      <!-- Publica diretamente em /odometry/filtered, sem remapping -->
     </node>
-
 
 
     <!--AMCL-->
     <node pkg="amcl" type="amcl" name="amcl" output="screen">
         <remap from="scan" to="scan"/>
+        <remap from="odom" to="$(arg odom_topic)"/>
         <param name="odom_frame_id" value="odom"/>       
         <param name="base_frame_id" value="base_footprint"/>
         <param name="update_min_d" value="0.1"/>
@@ -61,10 +62,6 @@
 
    
 
-   
-
-      <arg name="odom_topic" default="odom" />
-      <arg name="laser_topic" default="/scan" />
   <arg name="custom_param_file" default="$(find turtlebot_navigation)/param/dummy.yaml"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
