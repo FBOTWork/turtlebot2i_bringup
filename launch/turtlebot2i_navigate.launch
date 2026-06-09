@@ -14,10 +14,11 @@
         
 
     <!-- map_server -->
-    <arg name="map_name" default="arena_CBRdef.yaml" />
+    <arg name="map_name" default="test_corredor.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
-    
+    <!--imu_node-->
+    <node name="imu_node" pkg="turtlebot2i_bringup" type="imu_node.py" output="$(arg output)"/>
     
 
     <!--robot_localization EKF filter-->
@@ -54,7 +55,7 @@
     <!-- launch laser -->
     <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
       <param name="frame_id" value="hokuyo_link"/>
-      <param name="serial_port" value="/dev/ttyACM0"/> 
+      <param name="serial_port" value="/dev/ttyACM1"/> 
       <param name="angle_min" type="double" value="-1.0" />
       <param name="angle_max" type="double" value="1.0" />
       <param name="intensity" value="true" />

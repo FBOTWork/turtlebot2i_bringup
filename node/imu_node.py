@@ -14,7 +14,7 @@ class IMUNode:
 
         rospy.init_node('imu_node')
 
-        port = rospy.get_param('~port', '/dev/ttyUSB1')
+        port = rospy.get_param('~port', '/dev/ttyACM0')
         baud = rospy.get_param('~baud', 115200)
         self.frame_id = rospy.get_param('~frame_id', 'imu_link')
 
