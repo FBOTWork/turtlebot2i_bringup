@@ -1,31 +1,25 @@
 <?xml version="1.0"?>
 <launch>
-
-  <arg name="new_rtabmap" default="false"/>
-  <arg name="database_path" default="rtabmap.db"/>
-  <arg name="localization" default="false"/>
-  <arg name="rviz" default="true"/>
-  <arg name="rtabmapviz" default="false"/>
-  <arg name="odom_topic" default="odom_raw"/>
+  <arg name="rviz"      default="true"/>
+  <arg name="scan_name" default="/scan"/>
+  <arg name="odom_topic" default="/odometry/filtered"/>
 
   <include file="$(find turtlebot2i_bringup)/launch/minimal.launch"/>
-
   <include file="$(find turtlebot2i_bringup)/launch/arms/phantomx_pincher_arm.launch"/>
 
-  <!--<include file="$(find turtlebot2i_arm_director)/launch/named_pose_director.launch">
-    <arg name="load_moveit" value="true"/>
-  </include>-->
+  <!-- EKF -->
+  <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load"/>
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen"/>
 
-  <!-- EKF filter for odometry -->
-  <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
-    <remap from="/odom" to="/odometry/filtered"/>
+  <!-- IMU -->
+  <node pkg="turtlebot2i_bringup" type="imu_node.py" name="imu_node" output="screen">
   </node>
-  <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" /> -->
-  
-  <include file="$(find turtlebot2i_bringup)/launch/gmapping.launch"/>
+
+  <include file="$(find turtlebot2i_bringup)/launch/gmapping.launch">
+    <arg name="scan_name" value="$(arg scan_name)"/>
+  </include>
 
   <include file="$(find turtlebot2i_bringup)/launch/URG.launch"/>
 
   <include if="$(arg rviz)" file="$(find turtlebot2i_bringup)/launch/rviz.launch"/>
-
 </launch>
