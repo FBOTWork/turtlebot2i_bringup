@@ -17,10 +17,6 @@
     <arg name="map_name" default="test_corredor.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
 
-    <!--imu_node-->
-    <node name="imu_node" pkg="turtlebot2i_bringup" type="imu_node.py" output="$(arg output)"/>
-    
-
     <!--robot_localization EKF filter-->
     <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
