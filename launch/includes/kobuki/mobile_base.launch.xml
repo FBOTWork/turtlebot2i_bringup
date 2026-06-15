@@ -8,6 +8,7 @@
   <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet mobile_base_nodelet_manager">
     <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
     <param name="device_port" value="$(arg serialport)" />
+    <!-- Change this to true to don't use IMU -->
     <param name="publish_tf" value="false"/>
 
     <remap from="mobile_base/odom" to="odom_raw"/>

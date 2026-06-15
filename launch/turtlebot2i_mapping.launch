@@ -12,8 +12,8 @@
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen"/>
 
   <!-- IMU -->
-  <node pkg="turtlebot2i_bringup" type="imu_node.py" name="imu_node" output="screen">
-  </node>
+  <!-- <node pkg="work_arduino_sensors" type="imu_finger_node.py" name="imu_finger_node" output="screen">
+  </node> -->
 
   <include file="$(find turtlebot2i_bringup)/launch/gmapping.launch">
     <arg name="scan_name" value="$(arg scan_name)"/>

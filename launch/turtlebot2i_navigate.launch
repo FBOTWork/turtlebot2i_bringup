@@ -6,6 +6,7 @@
     <arg name="move_base" 	default="screen" />
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="use_map_topic"   default="true"/>
+    <!-- <arg name="odom_topic" default="/odom" /> -->
     <arg name="odom_topic" default="/odometry/filtered" />
     <arg name="laser_topic" default="/scan" />
 
@@ -21,6 +22,9 @@
     <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_filter_node" output="screen">
       <!-- Publica diretamente em /odometry/filtered, sem remapping -->
+    </node>
+
+    <node pkg="work_arduino_sensors" type="imu_finger_node.py" name="imu_finger_node" output="screen">
     </node>
 
 
