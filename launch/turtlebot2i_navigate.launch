@@ -24,7 +24,7 @@
       <!-- Publica diretamente em /odometry/filtered, sem remapping -->
     </node>
 
-    <node pkg="work_arduino_sensors" type="imu_finger_node.py" name="imu_finger_node" output="screen">
+    <node pkg="work_arduino_sensors" type="imu_finger_node" name="imu_finger_node" output="screen">
     </node>
 
 

@@ -1,5 +1,5 @@
 ekf_filter_node:
-  frequency: 30
+  frequency: 50
   sensor_timeout: 0.1
   two_d_mode: true
 
