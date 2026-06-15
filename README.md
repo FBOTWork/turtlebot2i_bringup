@@ -168,6 +168,9 @@ $(rospack find kobuki_node)/param/base.yaml
 nano $(rospack find kobuki_node)/param/base.yaml
 ```
 
+**Note: inside the `base.yaml` its possible use or not use the orientation from imu and disable the odom publish from base, this is important with you want use orientation from imu.**
+
+
 **What's in There:**
 The configuration file contains settings such as:
 - **Serial port settings**: How to communicate with the hardware
