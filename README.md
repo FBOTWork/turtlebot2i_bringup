@@ -429,7 +429,7 @@ use_imu_heading: false
 
 ### Configuration Step 2: Remap Kobuki Odometry Topic
 
-In your robot launch file (typically `minimal.launch`), remap the Kobuki odometry output:
+In your robot launch file (typically `mobile_base.yaml`), remap the Kobuki odometry output:
 
 ```xml
 <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet ...">
