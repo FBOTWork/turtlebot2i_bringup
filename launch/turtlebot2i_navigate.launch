@@ -15,8 +15,8 @@
         
 
     <!-- map_server -->
-    <arg name="map_name" default="test_corredor.yaml" />
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" />
+    <!-- <arg name="map_name" default="map_aquatecK.yaml" />
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" /> -->
 
     <!--robot_localization EKF filter-->
     <rosparam file="$(find turtlebot2i_bringup)/param/turtlebot2i_ekf.yaml" command="load" />
@@ -82,7 +82,7 @@
     <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
     <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
     <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
-    <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
+    
 
     <remap from="cmd_vel" to="/cmd_vel_mux/input/navi"/>
     <remap from="odom" to="$(arg odom_topic)"/>
