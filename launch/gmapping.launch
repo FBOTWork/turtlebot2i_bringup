@@ -1,27 +1,40 @@
 <launch>
-  <arg name="output" default="screen"/>
+  <arg name="output"    default="screen"/>
   <arg name="scan_name" default="/scan"/>
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="$(arg output)">
-    <param name="xmin" value="-1.0"/>
-    <param name="ymin" value="-1.0"/>
-    <param name="xmax" value="1.0"/>
-    <param name="ymax" value="1.0"/>
-    <param name="map_update_interval" value="0.1"/>
-    <param name="lskip" value="4"/>
-    <param name="linearUpdate" value="0.3"/>
-    <param name="angularUpdate" value="0.5"/>
-    <!-- <param name="temporalUpdate" value="3"/> -->
-    <param name="maxRange" value="5.5"/> <!-- reduces random spikes -->
-    <param name="maxUrange" value="4.0"/>
-    <param name="minimumScore" value="50"/>
+
+    <!-- Tamanho do mapa cobre a arena 10x7.5m com folga -->
+    <param name="xmin"  value="-6.0"/>
+    <param name="ymin"  value="-4.5"/>
+    <param name="xmax"  value="6.0"/>
+    <param name="ymax"  value="4.5"/>
+    <param name="delta" value="0.05"/>
+
+    <param name="map_update_interval" value="2.0"/>
+    <param name="linearUpdate"        value="0.2"/>
+    <param name="angularUpdate"       value="0.3"/>
+
+    <!-- URG-04LX: alcance máximo 4m -->
+    <param name="maxRange"  value="4.0"/>
+    <param name="maxUrange" value="3.5"/>
+
+    <!-- Mais partículas para compensar alcance curto do sensor -->
+    <param name="particles"    value="150"/>
+    <param name="minimumScore" value="100"/>
+    <param name="lskip"        value="0"/>
+
+    <!-- Modelo de movimento com EKF -->
+    <param name="srr" value="0.01"/>
+    <param name="srt" value="0.02"/>
+    <param name="str" value="0.01"/>
+    <param name="stt" value="0.02"/>
+
+    <param name="iterations" value="5"/>
+    <param name="sigma"      value="0.05"/>
+    <param name="ogain"      value="3.0"/>
+
+    <remap from="odom" to="/odometry/filtered"/>
     <remap from="scan" to="$(arg scan_name)"/>
   </node>
-
-  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
-
-    <rosparam command="load" file="$(find turtlebot_navigation)/param/laser_filter.yaml" />
-    <remap from="scan" to="/scan_filtered" />
-  </node>
-
 </launch>
