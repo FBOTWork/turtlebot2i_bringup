@@ -6,6 +6,7 @@
     <arg name="move_base" 	default="screen" />
     <arg name="base_frame_id"   default="base_footprint"/>
     <arg name="use_map_topic"   default="true"/>
+    <!--choose between different odometry topics for use or not use imu, only odom for directly odometry base -->
     <!-- <arg name="odom_topic" default="/odom" /> -->
     <arg name="odom_topic" default="/odometry/filtered" />
     <arg name="laser_topic" default="/scan" />
@@ -13,7 +14,7 @@
     <!-- start base -->
     <include file="$(find turtlebot2i_bringup)/launch/turtlebot2i_basic.launch"/>
         
-
+    <!--use this for choose the map on terminal like arg, actually used on reference task launch-->
     <!-- map_server -->
     <!-- <arg name="map_name" default="map_aquatecK.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/$(arg map_name)" output="$(arg output)" /> -->
@@ -55,7 +56,8 @@
     <!-- launch laser -->
     <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
       <param name="frame_id" value="hokuyo_link"/>
-      <param name="serial_port" value="/dev/ttyACM1"/> 
+      <!--hokuyo rule-->
+      <param name="serial_port" value="/dev/hokuyo_robo"/> 
       <param name="angle_min" type="double" value="-1.0" />
       <param name="angle_max" type="double" value="1.0" />
       <param name="intensity" value="true" />

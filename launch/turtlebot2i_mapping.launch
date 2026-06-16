@@ -2,6 +2,7 @@
 <launch>
   <arg name="rviz"      default="true"/>
   <arg name="scan_name" default="/scan"/>
+  <!--choose between different odometry topics for use or not use imu, only odom for directly odometry base -->
   <arg name="odom_topic" default="/odometry/filtered"/>
 
   <include file="$(find turtlebot2i_bringup)/launch/minimal.launch"/>

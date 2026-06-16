@@ -11,10 +11,9 @@
     <!-- Change this to true to don't use IMU -->
     <param name="publish_tf" value="false"/>
 
+    <!--remap from odom to odom_raw for dont confuse with odom published from ekf on tf_tree-->
     <remap from="mobile_base/odom" to="odom_raw"/>
-    <!-- Don't do this - force applications to use a velocity mux for redirection  
-      <remap from="mobile_base/commands/velocity" to="cmd_vel"/> 
-    -->
+    
     <remap from="mobile_base/enable" to="enable"/>
     <remap from="mobile_base/disable" to="disable"/>
     <remap from="mobile_base/joint_states" to="joint_states"/>
